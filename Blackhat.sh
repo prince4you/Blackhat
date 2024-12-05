@@ -1,0 +1,178 @@
+  GNU nano 8.2                                                                                         blackhat.sh
+#!/usr/bin/env bash
+
+# Colors for UI
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+# Function to check internet connectivity
+check_internet() {
+  echo -e "${YELLOW}Checking internet connection... 🌐${NC}"
+  ping -c 1 google.com >/dev/null 2>&1
+  if [ "$?" != '0' ]; then
+    echo -e "${RED}It seems like you are not connected to the internet. 🙁${NC}"
+    echo -e "${CYAN}Please check your connection and try again. 🚀${NC}"
+    exit 2
+  fi                                                                                                                                                                                                                   echo -e "${GREEN}Internet is working fine! ✅${NC}"
+}
+
+# About Me Section
+about_me() {
+  clear
+  echo -e "${CYAN}"
+  echo "--------------------------------------------"
+  echo "               ABOUT ME                     "                                                                                                                                                                  echo "--------------------------------------------"
+  echo -e "${YELLOW}Hello! Friends, My name is ${GREEN}Sunil${YELLOW}, and I am the creator of the ${GREEN}Noob Cyber Tech${YELLOW} channel."
+  echo ""
+  echo "On this channel, we learn ethical hacking, cybersecurity, and bug bounty together."
+  echo "I create practical tutorials and tips for beginners and tech enthusiasts to make learning easy and enjoyable!"
+  echo ""
+  echo -e "${CYAN}Why Subscribe?${NC}"
+  echo -e "${YELLOW}👉 Want to set up hacking labs? Learn to use tools? Start with bug bounty?${NC}"
+  echo -e "${RED}Then make sure to subscribe to the channel and hit the bell icon for updates!"
+  echo ""
+  echo -e "${CYAN}YouTube Channel: ${GREEN}https://youtube.com/@noobcybertech2024?si=MVKSaevhkBnmceKZ${NC}"
+  echo -e "${CYAN}--------------------------------------------${NC}"
+}
+
+# Function to open links
+open_link() {
+  echo -e "${GREEN}Opening link...${NC}"
+  termux-open-url "$1" >/dev/null 2>&1
+}
+
+# Social Media links submenu
+submenu_social_media() {
+  clear
+  echo -e "${CYAN}"
+  echo -e "${GREEN}{1} YouTube"
+  echo -e "${GREEN}{2} Facebook"
+  echo -e "${GREEN}{3} Telegram"
+  echo -e "${GREEN}{4} Instagram"
+  echo -e "${GREEN}{5} WhatsApp Group"
+  echo -e "${CYAN}{0} Back to Main Menu${NC}"
+  echo -e "${CYAN}--------------------------------------------${NC}"
+  read -p "Enter your choice: " social_choice
+  case $social_choice in
+    1) open_link "https://youtube.com/@noobcybertech2024?si=MVKSaevhkBnmceKZ" ;;
+    2) open_link "https://www.facebook.com/share/1HrTAb9GoH/" ;;
+    3) open_link "https://t.me/Annon4you" ;;
+    4) open_link "https://www.instagram.com/annon_4you" ;;
+    5) open_link "https://chat.whatsapp.com/DQHA1MZ46RYGlyIIOPZR2T" ;;
+    0) main_menu ;;
+    *) echo -e "${RED}Invalid choice! Returning to main menu.${NC}" ; sleep 2 ; main_menu ;;
+  esac
+}
+
+# Submenu for Python for Hackers
+submenu_python_hackers() {
+  clear
+  echo -e "${CYAN}"
+  echo -e "${GREEN}{1} Python for Penetration Testers"
+  echo -e "${GREEN}{2} Python Hacking Complete Course"
+  echo -e "${GREEN}{3} Python and Django Framework"
+  echo -e "${GREEN}{4} Python All-in-One"
+  echo -e "${CYAN}{0} Back to Main Menu${NC}"
+  echo -e "${CYAN}--------------------------------------------${NC}"
+  read -p "ENTER YOUR CHOICE : " python_choice
+  case $python_choice in
+    1) open_link "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/8y5DUKCZ" ;;
+    2) open_link "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/h2wnzQpY" ;;
+    3) open_link "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/5r4ziYSa" ;;
+    4) open_link "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/JrxhRYZb" ;;
+    0) main_menu ;;
+    *) echo -e "${RED}Invalid input! Returning to main menu.${NC}"; sleep 2; main_menu ;;
+  esac
+}
+
+# Main menu function
+main_menu() {
+  clear
+  echo -e "${CYAN}"
+  echo "                  ..............."
+  echo "              .........................."
+  echo "           ......',,;;;;;;;;;;;;;;,'......"
+  echo "        ......,;:;,''.....''''''',;::;,......"
+  echo "      .....';c:,'........',,,'......,;cc:'....."
+  echo "     ....':l;''.........',,,,'.......',;co:'...."
+  echo "    ....,lc,'....''.            .......'';ll,...."
+  echo "   ....,l:,'......'              ........',co,...."
+  echo "  ....,o:;,'.......               '......',;lo'...."
+  echo "  ...'ll:;,'..''..                ........',;ol...."
+  echo " ....,oc::,'.'                         ...',,cd,...."
+  echo " ....:oc::;,'''..                    .....'',:d;...."
+  echo " ....:oc:::;,''.',;              .;'......'',cd;...."
+  echo " ....,oc:::;,'.',co.             :l:......'',ld,...."
+  echo "  ....ll:::::;;:lol;             ;lc,'..''',;lc...."
+  echo "  ....'lc::clollodo'             ;c:;,,,'',;ll'...."
+  echo "   ....,lccloool:,..             ...',;;;;;lo'...."
+  echo "    ....'clc;.         V 3.3            .'l:...."
+  echo "        . .."
+  echo "              [BlackHat by Sunil]"
+
+  echo -e "${GREEN}{1} HACKING MASTER CLASS"
+  echo -e "${GREEN}{2} BUG BOUNTY"
+  echo -e "${GREEN}{3} update soon"
+  echo -e "${GREEN}{4} update soon"
+  echo -e "${GREEN}{5} PYTHON FOR HACKERS"
+  echo -e "${GREEN}{6} BITTEN TECH HACKING COURSE"
+  echo -e "${GREEN}{7} SOCIAL MEDIA LINKS"
+  echo -e "${CYAN}{9} ABOUT ME"
+  echo -e "${CYAN}{0} EXIT${NC}"
+  echo -e "${CYAN}--------------------------------------------${NC}"
+
+  read -p "ENTER YOUR CHOICE : " main_choice
+  case $main_choice in
+    1)
+      open_link "https://drive.google.com/drive/folders/1mZwaNmPJB6OcGf-lSejIvbU8y2YxjDt4"
+      ;;
+    2)
+      open_link "https://mega.nz/folder/7yQwiRTY#mANk-z-SHu8tvFWiNJousQ"
+      ;;
+    3)
+      submenu_technical_sagar
+      ;;
+    4)
+      submenu_dead_sec
+      ;;
+    5)
+      submenu_python_hackers
+      ;;
+    6)
+      open_link "https://archive.org/download/tech-hacker-ethical-hacking-and-cyber-security-complete-bundle-bitten"
+      ;;
+    7)
+      submenu_social_media
+      ;;
+    9)
+      about_me
+      read -n 1 -s -r -p "Press any key to return to main menu..."
+      main_menu
+      ;;
+    0)
+      echo -e "${YELLOW}Exiting....${NC}" ; sleep 2 ; exit
+      ;;
+    *)
+      echo -e "${RED}Invalid input! Please try again.${NC}"
+      sleep 2
+      main_menu
+      ;;
+  esac
+}
+
+# Entry point
+check_internet
+main_menu
+
+
+
+
+
+
+
+
+
+
