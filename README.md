@@ -28,7 +28,7 @@ Follow the steps to install the **BLACK HAT** tool:
 apt-get update -y  
 apt-get upgrade -y  
 pkg install git -y  
-https://github.com/prince4you/Blackhat.git
+git clone https://github.com/prince4you/Blackhat.git
 cd $HOME  
 cd Blackhat  
 ls
