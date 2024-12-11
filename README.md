@@ -25,17 +25,13 @@ This tool is a command-line-based menu system that helps you access hacking and 
 Follow the steps to install the **BLACK HAT** tool:  
 
 ```bash
-# Update and upgrade packages
 apt-get update -y  
 apt-get upgrade -y  
-
-# Install required dependencies
 pkg install git -y  
-# Clone the BLACK HAT tool
-git clone https://github.com/prince4you/Blackhat/tree/main
-# Move to the tool's directory
+https://github.com/prince4you/Blackhat.git
 cd $HOME  
 cd Blackhat  
+ls
 
 # Setup and run the tool
 bash setup  
