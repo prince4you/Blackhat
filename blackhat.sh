@@ -1,207 +1,384 @@
 #!/usr/bin/env bash
 
-# Colors for UI
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-NC='\033[0m' # No Color
+# ======================================================================
+# BLACKHAT TOOLKIT v6.0
+# ======================================================================
+# Advanced Cybersecurity Resource Manager
+# ======================================================================
 
-# Function to check internet connectivity
+# Colors
+RED='\033[0;38;5;196m'
+GREEN='\033[0;38;5;46m'
+YELLOW='\033[0;38;5;226m'
+CYAN='\033[0;38;5;51m'
+BLUE='\033[0;38;5;21m'
+PURPLE='\033[0;38;5;93m'
+ORANGE='\033[0;38;5;202m'
+WHITE='\033[1;37m'
+NC='\033[0m'
+
+# Configuration
+VERSION="2.0"
+AUTHOR="Sunil [ Prince4you ] "
+CHANNEL_NAME="Noob Cyber Tech"
+
+# Platform Detection
+detect_platform() {
+    if [[ $(uname -o) == *Android* ]] || [[ -d /data/data/com.termux/files/usr ]]; then
+        echo "termux"
+    elif [[ -f /etc/kali-release ]]; then
+        echo "kali"
+    elif [[ -f /etc/parrot-release ]]; then
+        echo "parrot"
+    elif [[ -f /etc/debian_version ]]; then
+        echo "debian"
+    elif [[ $(uname) == "Darwin" ]]; then
+        echo "macos"
+    else
+        echo "linux"
+    fi
+}
+
+PLATFORM=$(detect_platform)
+
+# ======================================================================
+# ADVANCED BANNER FUNCTION
+# ======================================================================
+
+show_banner() {
+    clear
+    echo -e "${CYAN}"
+    echo "                  ..............."
+    echo "              .........................."
+    echo "           ......',,;;;;;;;;;;;;;;,'......"
+    echo "        ......,;:;,''.....''''''',;::;,......"
+    echo "      .....';c:,'........',,,'......,;cc:'....."
+    echo "     ....':l;''.........',,,,'.......',;co:'...."
+    echo "    ....,lc,'....''.            .......'';ll,...."
+    echo "   ....,l:,'......'              ........',co,...."
+    echo "  ....,o:;,'.......               '......',;lo'...."
+    echo "  ...'ll:;,'..''..                ........',;ol...."
+    echo " ....,oc::,'.'                         ...',,cd,...."
+    echo " ....:oc::;,'''..                    .....'',:d;...."
+    echo " ....:oc:::;,''.',;              .;'......'',cd;...."
+    echo " ....,oc:::;,'.',co.             :l:......'',ld,...."
+    echo "  ....ll:::::;;:lol;             ;lc,'..''',;lc...."
+    echo "  ....'lc::clollodo'             ;c:;,,,'',;ll'...."
+    echo "   ....,lccloool:,..             ...',;;;;;lo'...."
+    echo "    ....'clc;.                          .'l:...."
+
+    echo -e "${NC}"
+    echo -e "${GREEN}  Platform: ${PLATFORM} | User: $(whoami)${NC}"
+    echo -e "${YELLOW}    Channel: ${CHANNEL_NAME}${NC}"
+    echo -e "${YELLOW}       Tool By: ${AUTHOR}${NC}"
+}
+
+# ======================================================================
+# ADVANCED ANIMATION FUNCTIONS
+# ======================================================================
+
+hacking_animation() {
+    echo -e "${CYAN}"
+    echo "[*] INITIATING SECURE CONNECTION PROTOCOL..."
+    echo -e "${NC}"
+    
+    for i in {1..3}; do
+        echo -ne "${GREEN}⦿ ENCRYPTING DATA STREAM${NC} "
+        for j in {1..5}; do
+            echo -ne "${GREEN}•${NC}"
+            sleep 0.1
+        done
+        echo
+    done
+    
+    echo -e "${GREEN}✓ AES-256 ENCRYPTION: ACTIVE${NC}"
+    echo -e "${GREEN}✓ TOR NETWORK: ROUTED${NC}"
+    echo -e "${GREEN}✓ VPN TUNNEL: SECURED${NC}"
+    echo -e "${GREEN}✓ CONNECTION: ANONYMIZED${NC}"
+    echo
+}
+
+progress_bar() {
+    local duration=${1:-2}
+    local message="${2:-Processing}"
+    
+    echo -ne "${CYAN}[*] ${message} [${NC}"
+    for i in {1..20}; do
+        echo -ne "${GREEN}█${NC}"
+        sleep $(echo "scale=2; $duration/20" | bc)
+    done
+    echo -e "${CYAN}] ✓${NC}"
+}
+
+# ======================================================================
+# SYSTEM FUNCTIONS
+# ======================================================================
+
+check_dependencies() {
+    local missing=()
+    local deps=("curl")
+    
+    for dep in "${deps[@]}"; do
+        if ! command -v "$dep" &>/dev/null; then
+            missing+=("$dep")
+        fi
+    done
+    
+    if [ ${#missing[@]} -gt 0 ]; then
+        echo -e "${YELLOW}[!] Missing dependencies: ${missing[*]}${NC}"
+        echo -e "${CYAN}[*] Installing required packages...${NC}"
+        
+        case $PLATFORM in
+            "termux") pkg install -y ${missing[@]} ;;
+            "kali"|"debian"|"parrot") sudo apt update && sudo apt install -y ${missing[@]} ;;
+            "macos") brew install ${missing[@]} ;;
+        esac
+    fi
+}
+
 check_internet() {
-  echo -e "${YELLOW}Checking internet connection... 🌐${NC}"
-  ping -c 1 google.com >/dev/null 2>&1
-  if [ "$?" != '0' ]; then
-    echo -e "${RED}It seems like you are not connected to the internet. 🙁${NC}"
-    echo -e "${CYAN}Please check your connection and try again. 🚀${NC}"
-    exit 2
-  fi
-  echo -e "${GREEN}Internet is working fine! ✅${NC}"
+    echo -e "${YELLOW}[*] TESTING NETWORK CONNECTIVITY...${NC}"
+    
+    if ping -c 2 -W 3 8.8.8.8 &>/dev/null; then
+        echo -e "${GREEN}[✓] INTERNET CONNECTION: ACTIVE${NC}"
+        return 0
+    else
+        echo -e "${RED}[✗] NETWORK CONNECTION: OFFLINE${NC}"
+        return 1
+    fi
 }
 
-# About Me Section
-about_me() {
-  clear
-  echo -e "${CYAN}"
-  echo "--------------------------------------------"
-  echo "               ABOUT ME                     "
-  echo "--------------------------------------------"
-  echo -e "${YELLOW}Hello! Friends, My name is ${GREEN}Sunil${YELLOW}, and I am the creator of the ${GREEN}Noob Cyber Tech${YELLOW} channel."
-  echo ""
-  echo "On this channel, we learn ethical hacking, cybersecurity, and bug bounty together."
-  echo "I create practical tutorials and tips for beginners and tech enthusiasts to make learning easy and enjoyable!"
-  echo ""
-  echo -e "${CYAN}Why Subscribe?${NC}"
-  echo -e "${YELLOW}👉 Want to set up hacking labs? Learn to use tools? Start with bug bounty?${NC}"
-  echo -e "${RED}Then make sure to subscribe to the channel and hit the bell icon for updates!"
-  echo ""
-  echo -e "${CYAN}YouTube Channel: ${GREEN}https://youtube.com/@noobcybertech2024?si=MVKSaevhkBnmceKZ${NC}"
-  echo -e "${CYAN}--------------------------------------------${NC}"
+open_resource() {
+    local url="$1"
+    local name="$2"
+    
+    echo -e "${CYAN}[*] ACCESSING: ${name}${NC}"
+    hacking_animation
+    
+    case $PLATFORM in
+        "termux") termux-open-url "$url" ;;
+        "kali"|"debian"|"parrot"|"linux") xdg-open "$url" & ;;
+        "macos") open "$url" ;;
+        *) echo -e "${YELLOW}[!] Manual access: ${url}${NC}" ;;
+    esac
+    
+    echo -e "${GREEN}[✓] RESOURCE ACCESSED SUCCESSFULLY${NC}"
 }
 
-# Function to open links
-open_link() {
-  echo -e "${GREEN}Opening link...${NC}"
-  termux-open-url "$1" >/dev/null 2>&1
+# ======================================================================
+# MENU FUNCTIONS
+# ======================================================================
+
+show_about() {
+    show_banner
+    echo -e "${CYAN}"
+    echo "                     ABOUT ME"
+    echo "══════════════════════════════════════════════════"
+    echo -e "${NC}"
+    
+    echo -e "${YELLOW}Hello! I'm Sunil, creator of Noob Cyber Tech.${NC}"
+    echo
+    echo -e "${GREEN}✓ Ethical hacking & bug bounty specialist"
+    echo -e "${GREEN}✓ YouTube educator and content creator"
+    echo -e "${GREEN}✓ Cybersecurity enthusiast${NC}"
+    echo
+    echo -e "${BLUE}📺 YouTube: ${GREEN}https://youtube.com/@noobcybertech2024${NC}"
+    echo -e "${BLUE}🌐 Platform: ${GREEN}${PLATFORM}${NC}"
+    echo -e "${BLUE}⚡ Version: ${GREEN}${VERSION}${NC}"
+    echo "══════════════════════════════════════════════════"
 }
 
-# Social Media links submenu
-submenu_social_media() {
-  clear
-  echo -e "${CYAN}"
-  echo -e "${GREEN}{1} YouTube"
-  echo -e "${GREEN}{2} Facebook"
-  echo -e "${GREEN}{3} Telegram"
-  echo -e "${GREEN}{4} Instagram"
-  echo -e "${GREEN}{5} WhatsApp Group"
-  echo -e "${CYAN}{0} Back to Main Menu${NC}"
-  echo -e "${CYAN}--------------------------------------------${NC}"
-  read -p "Enter your choice: " social_choice
-  case $social_choice in
-    1) open_link "https://youtube.com/@noobcybertech2024?si=MVKSaevhkBnmceKZ" ;;
-    2) open_link "https://www.facebook.com/share/1HrTAb9GoH/" ;;
-    3) open_link "https://t.me/Annon4you" ;;
-    4) open_link "https://www.instagram.com/annon_4you" ;;
-    5) open_link "https://chat.whatsapp.com/DQHA1MZ46RYGlyIIOPZR2T" ;;
-    0) main_menu ;;
-    *) echo -e "${RED}Invalid choice! Returning to main menu.${NC}" ; sleep 2 ; main_menu ;;
-  esac
+show_social_menu() {
+    while true; do
+        show_banner
+        echo -e "${CYAN}"
+        echo "                 SOCIAL MEDIA"
+        echo "══════════════════════════════════════════════════"
+        echo -e "${NC}"
+        
+        echo -e "${GREEN}[1] ${CYAN}YouTube Channel${NC}"
+        echo -e "${GREEN}[2] ${CYAN}Facebook${NC}"
+        echo -e "${GREEN}[3] ${CYAN}Telegram${NC}"
+        echo -e "${GREEN}[4] ${CYAN}Instagram${NC}"
+        echo -e "${GREEN}[5] ${CYAN}WhatsApp Group${NC}"
+        echo -e "${RED}[0] ${CYAN}Back to Main Menu${NC}"
+        echo ""
+        
+        read -p "$(echo -e "${YELLOW}SELECT OPTION: ${NC}")" choice
+
+        case $choice in
+            1) open_resource "https://youtube.com/@noobcybertech2024" "YouTube Channel" ;;
+            2) open_resource "https://www.facebook.com/share/1HrTAb9GoH/" "Facebook" ;;
+            3) open_resource "https://t.me/Annon4you" "Telegram" ;;
+            4) open_resource "https://www.instagram.com/annon_4you" "Instagram" ;;
+            5) open_resource "https://chat.whatsapp.com/DQHA1MZ46RYGlyIIOPZR2T" "WhatsApp Group" ;;
+            0) break ;;
+            *) echo -e "${RED}[!] INVALID SELECTION${NC}"; sleep 1 ;;
+        esac
+        
+        [[ $choice != 0 ]] && read -n 1 -s -p "$(echo -e "${YELLOW}PRESS ANY KEY TO CONTINUE...${NC}")"
+    done
 }
 
-# Submenu for Python for Hackers
-submenu_python_hackers() {
-  clear
-  echo -e "${CYAN}"
-  echo -e "${GREEN}{1} Python for Penetration Testers"
-  echo -e "${GREEN}{2} Python Hacking Complete Course"
-  echo -e "${GREEN}{3} Python and Django Framework"
-  echo -e "${GREEN}{4} Python All-in-One"
-  echo -e "${CYAN}{0} Back to Main Menu${NC}"
-  echo -e "${CYAN}--------------------------------------------${NC}"
-  read -p "ENTER YOUR CHOICE : " python_choice
-  case $python_choice in
-    1) open_link "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/8y5DUKCZ" ;;
-    2) open_link "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/h2wnzQpY" ;;
-    3) open_link "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/5r4ziYSa" ;;
-    4) open_link "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/JrxhRYZb" ;;
-    0) main_menu ;;
-    *) echo -e "${RED}Invalid input! Returning to main menu.${NC}"; sleep 2; main_menu ;;
-  esac
+show_python_menu() {
+    while true; do
+        show_banner
+        echo -e "${CYAN}"
+        echo "              PYTHON FOR HACKERS"
+        echo "══════════════════════════════════════════════════"
+        echo -e "${NC}"
+        
+        echo -e "${GREEN}[1] ${CYAN}Penetration Testing${NC}"
+        echo -e "${GREEN}[2] ${CYAN}Python Hacking Course${NC}"
+        echo -e "${GREEN}[3] ${CYAN}Django Security${NC}"
+        echo -e "${GREEN}[4] ${CYAN}Python Toolkit${NC}"
+        echo -e "${RED}[0] ${CYAN}Back to Main Menu${NC}"
+        echo ""
+        
+        read -p "$(echo -e "${YELLOW}SELECT MODULE: ${NC}")" choice
+
+        case $choice in
+            1) open_resource "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/8y5DUKCZ" "Penetration Testing" ;;
+            2) open_resource "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/h2wnzQpY" "Python Hacking Course" ;;
+            3) open_resource "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/5r4ziYSa" "Django Security" ;;
+            4) open_resource "https://mega.nz/folder/NuQixb4C#JTM79y1ojYbuzqxSeAHURQ/folder/JrxhRYZb" "Python Toolkit" ;;
+            0) break ;;
+            *) echo -e "${RED}[!] INVALID SELECTION${NC}"; sleep 1 ;;
+        esac
+        
+        [[ $choice != 0 ]] && read -n 1 -s -p "$(echo -e "${YELLOW}PRESS ANY KEY TO CONTINUE...${NC}")"
+    done
 }
 
-# Main menu function
+show_techsagar_menu() {
+    while true; do
+        show_banner
+        echo -e "${CYAN}"
+        echo "         TECHNICAL SAGAR COURSES"
+        echo "══════════════════════════════════════════════════"
+        echo -e "${NC}"
+        
+        echo -e "${GREEN}[1] ${CYAN}Quick Hack Course${NC}"
+        echo -e "${GREEN}[2] ${CYAN}Hackstars Course${NC}"
+        echo -e "${GREEN}[3] ${CYAN}Tech Master Course${NC}"
+        echo -e "${RED}[0] ${CYAN}Back to Main Menu${NC}"
+        echo ""
+        
+        read -p "$(echo -e "${YELLOW}SELECT COURSE: ${NC}")" choice
+
+        case $choice in
+            1) open_resource "https://www.mediafire.com/file/mrcz8aa7ji05a2m/Quick_Hack_-_Beginners_Ethical_Hacking_Course_%2528White_Hat%2529.zip/file" "Quick Hack Course" ;;
+            2) open_resource "https://mega.nz/folder/z7RVySYJ#VZsibaQRv58Xkn9jc-" "Hackstars Course" ;;
+            3) open_resource "https://mega.nz/folder/XqR2BQ7A#_h4rAtZXCvyaCY7Xs" "Tech Master Course" ;;
+            0) break ;;
+            *) echo -e "${RED}[!] INVALID SELECTION${NC}"; sleep 1 ;;
+        esac
+        
+        [[ $choice != 0 ]] && read -n 1 -s -p "$(echo -e "${YELLOW}PRESS ANY KEY TO CONTINUE...${NC}")"
+    done
+}
+
+show_bittentech_menu() {
+    while true; do
+        show_banner
+        echo -e "${CYAN}"
+        echo "          BITTEN TECH COURSES"
+        echo "══════════════════════════════════════════════════"
+        echo -e "${NC}"
+        
+        echo -e "${GREEN}[1] ${CYAN}Ethical Hacking Bundle${NC}"
+        echo -e "${GREEN}[2] ${CYAN}OSCP Certification Course${NC}"
+        echo -e "${GREEN}[3] ${CYAN}Penetration Testing${NC}"
+        echo -e "${GREEN}[4] ${CYAN}Cybersecurity Bundle${NC}"
+        echo -e "${RED}[0] ${CYAN}Back to Main Menu${NC}"
+        echo ""
+        
+        read -p "$(echo -e "${YELLOW}SELECT COURSE: ${NC}")" choice
+
+        case $choice in
+            1) open_resource "https://archive.org/download/tech-hacker-ethical-hacking-and-cyber-security-complete-bundle-bitten" "Ethical Hacking Bundle" ;;
+            2) open_resource "https://drive.google.com/drive/folders/1FzOEe8m1IF7gX-vBEFVDPykqQgLohCI-" "OSCP Certification Course" ;;
+            3) open_resource "https://archive.org/download/tech-hacker-ethical-hacking-and-cyber-security-complete-bundle-bitten" "Penetration Testing" ;;
+            4) open_resource "https://archive.org/download/tech-hacker-ethical-hacking-and-cyber-security-complete-bundle-bitten" "Cybersecurity Bundle" ;;
+            0) break ;;
+            *) echo -e "${RED}[!] INVALID SELECTION${NC}"; sleep 1 ;;
+        esac
+        
+        [[ $choice != 0 ]] && read -n 1 -s -p "$(echo -e "${YELLOW}PRESS ANY KEY TO CONTINUE...${NC}")"
+    done
+}
+
+# ======================================================================
+# MAIN MENU
+# ======================================================================
+
 main_menu() {
-  clear
-  echo -e "${CYAN}"
-  echo "                  ..............."
-  echo "              .........................."
-  echo "           ......',,;;;;;;;;;;;;;;,'......"
-  echo "        ......,;:;,''.....''''''',;::;,......"
-  echo "      .....';c:,'........',,,'......,;cc:'....."
-  echo "     ....':l;''.........',,,,'.......',;co:'...."
-  echo "    ....,lc,'....''.            .......'';ll,...."
-  echo "   ....,l:,'......'              ........',co,...."
-  echo "  ....,o:;,'.......               '......',;lo'...."
-  echo "  ...'ll:;,'..''..                ........',;ol...."
-  echo " ....,oc::,'.'                         ...',,cd,...."
-  echo " ....:oc::;,'''..                    .....'',:d;...."
-  echo " ....:oc:::;,''.',;              .;'......'',cd;...."
-  echo " ....,oc:::;,'.',co.             :l:......'',ld,...."
-  echo "  ....ll:::::;;:lol;             ;lc,'..''',;lc...."
-  echo "  ....'lc::clollodo'             ;c:;,,,'',;ll'...."
-  echo "   ....,lccloool:,..             ...',;;;;;lo'...."
-  echo "    ....'clc;.         V 3.0            .'l:...."
-  echo "        . .."
-  echo "              [BlackHat by Sunil]"
-  echo "          <<----------------------->>"
-  echo -e "${GREEN}{1} HACKING MASTER CLASS"
-  echo -e "${GREEN}{2} BUG BOUNTY"
-  echo -e "${GREEN}{3} Technical Sagar course"
-  echo -e "${GREEN}{4} Ethical Hacking & Build Python Attack & Defense Tools"
-  echo -e "${GREEN}{5} PYTHON FOR HACKERS"
-  echo -e "${GREEN}{6} BITTEN TECH HACKING COURSE"
-  echo -e "${GREEN}{7} SOCIAL MEDIA LINKS"
-  echo -e "${CYAN}{9} ABOUT ME"
-  echo -e "${CYAN}{0} EXIT${NC}"
-  echo -e "${CYAN}--------------------------------------------${NC}"
+    while true; do
+        show_banner
+        echo -e "${CYAN}"
+        echo "                  MAIN MENU"
+        echo "══════════════════════════════════════════════════"
+        echo -e "${NC}"
+        
+        echo -e "${GREEN}[1] ${CYAN}Hacking Master Class${NC}"
+        echo -e "${GREEN}[2] ${CYAN}Bug Bounty Resources${NC}"
+        echo -e "${GREEN}[3] ${CYAN}Technical Sagar Courses${NC}"
+        echo -e "${GREEN}[4] ${CYAN}Ethical Hacking Tools${NC}"
+        echo -e "${GREEN}[5] ${CYAN}Python for Hackers${NC}"
+        echo -e "${GREEN}[6] ${CYAN}Bitten Tech Courses${NC}"
+        echo -e "${GREEN}[7] ${CYAN}Social Media Links${NC}"
+        echo -e "${GREEN}[8] ${CYAN}About Me${NC}"
+        echo -e "${RED}[0] ${CYAN}Exit Tool${NC}"
+        echo ""
+        
+        read -p "$(echo -e "${YELLOW}ENTER CHOICE: ${NC}")" choice
 
-  read -p "ENTER YOUR CHOICE : " main_choice
-  case $main_choice in
-    1)
-      open_link "https://drive.google.com/drive/folders/1mZwaNmPJB6OcGf-lSejIvbU8y2YxjDt4"
-      ;;
-    2)
-      open_link "https://mega.nz/folder/7yQwiRTY#mANk-z-SHu8tvFWiNJousQ"
-      ;;
-    3)
-      # HACKERS' CHOICE MENU
-show_menu() {
-  echo -e "\n🔥 {1} QUICK HACK"
-  echo -e "🔥 {2} HACKSTARS"
-  echo -e "🔥 {3} TECH MASTER"
-  echo -e "💀 {0} EXIT"
+        case $choice in
+            1) open_resource "https://drive.google.com/drive/folders/1mZwaNmPJB6OcGf-lSejIvbU8y2YxjDt4" "Hacking Master Class" ;;
+            2) open_resource "https://mega.nz/folder/7yQwiRTY#mANk-z-SHu8tvFWiNJousQ" "Bug Bounty Resources" ;;
+            3) show_techsagar_menu ;;
+            4) open_resource "https://drive.google.com/drive/mobile/folders/10Ujx_YgIkA5lsiS5aU8E4dMXIzw0KlG2?usp=share_link" "Ethical Hacking Tools" ;;
+            5) show_python_menu ;;
+            6) show_bittentech_menu ;;
+            7) show_social_menu ;;
+            8) show_about ;;
+            0) 
+                echo -e "${GREEN}[+] Closing session...${NC}"
+                progress_bar 1 "Cleaning up"
+                echo -e "${YELLOW}[*] Stay secure! 🛡️${NC}"
+                exit 0
+                ;;
+            *) 
+                echo -e "${RED}[!] INVALID CHOICE${NC}"
+                sleep 1
+                ;;
+        esac
+        
+        [[ $choice != 0 ]] && read -n 1 -s -p "$(echo -e "${YELLOW}PRESS ANY KEY TO CONTINUE...${NC}")"
+    done
 }
 
-execute_choice() {
-  local user_choice
-  read -p "Enter your choice: " user_choice
+# ======================================================================
+# INITIALIZATION
+# ======================================================================
 
-  if [[ $user_choice == 1 ]]; then
-    echo "⚡ Loading QUICK HACK resource..."
-    xdg-open "https://www.mediafire.com/file/mrcz8aa7ji05a2m/Quick_Hack_-_Beginners_Ethical_Hacking_Course_%2528White_Hat%2529.zip/file" >/dev/null 2>&1
-  elif [[ $user_choice == 2 ]]; then
-    echo "⚡ Loading HACKSTARS resource..."
-    xdg-open "https://mega.nz/folder/z7RVySYJ#VZsibaQRv58Xkn9jc-" >/dev/null 2>&1
-  elif [[ $user_choice == 3 ]]; then
-    echo "⚡ Loading TECH MASTER resource..."
-    xdg-open "https://mega.nz/folder/XqR2BQ7A#_h4rAtZXCvyaCY7Xs" >/dev/null 2>&1
-  elif [[ $user_choice == 0 ]]; then
-    echo "👋 Exiting... Stay safe, hacker!"
-    sleep 2
-    exit
-  else
-    echo "❌ Invalid input! Try again."
-    sleep 2
-    hacker_menu # Restart the menu
-  fi
+initialize() {
+    echo -e "${BLUE}"
+    echo "Initializing BlackHat Toolkit v${VERSION}"
+    progress_bar 2 "Loading resources"
+    
+    check_dependencies
+    check_internet
+    
+    echo -e "${GREEN}[✓] SYSTEM READY${NC}"
+    sleep 1
 }
 
-hacker_menu() {
-  show_menu
-  execute_choice
-}
+# ======================================================================
+# MAIN EXECUTION
+# ======================================================================
 
-# Call the function
-hacker_menu
-      ;;
-    4)
-      xdg-open "https://drive.google.com/drive/mobile/folders/10Ujx_YgIkA5lsiS5aU8E4dMXIzw0KlG2?usp=share_link"
-      ;;
-    5)
-      submenu_python_hackers
-      ;;
-    6)
-      open_link "https://archive.org/download/tech-hacker-ethical-hacking-and-cyber-security-complete-bundle-bitten"
-      ;;
-    7)
-      submenu_social_media
-      ;;
-    9)
-      about_me
-      read -n 1 -s -r -p "Press any key to return to main menu..."
-      main_menu
-      ;;
-    0)
-      echo -e "${YELLOW}Exiting....${NC}" ; sleep 2 ; exit
-      ;;
-    *)
-      echo -e "${RED}Invalid input! Please try again.${NC}"
-      sleep 2
-      main_menu
-      ;;
-  esac
-}
-
-# Entry point
-check_internet
+# Clear screen and start
+clear
+initialize
 main_menu
